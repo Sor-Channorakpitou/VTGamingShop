@@ -1,0 +1,45 @@
+name: vtgamingshop
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: vtshop
+      POSTGRES_PASSWORD: vtshop
+      POSTGRES_DB: catalog
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vtshop -d catalog"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  catalog:
+    build:
+      context: ../services
+      dockerfile: Catalog/Catalog.Api/Dockerfile
+    environment:
+      ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=catalog;Username=vtshop;Password=vtshop"
+    ports:
+      - "5101:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Serves the storefront and forwards /api/* to the Catalog service.
+  # Replaced by the YARP gateway in roadmap step 2.
+  frontend:
+    image: nginx:1.27-alpine
+    volumes:
+      - ../frontend:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - catalog
+
+volumes:
+  postgres-data:
