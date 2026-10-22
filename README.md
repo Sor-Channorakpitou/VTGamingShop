@@ -45,3 +45,32 @@ No commercially licensed libraries (MediatR, AutoMapper, MassTransit) are used.
 - .NET 10 SDK
 - Docker Desktop (or Podman Desktop / Rancher Desktop)
 - About 16 GB RAM with every service running
+
+## Running it
+
+Everything in Docker:
+
+```
+cd deploy
+docker compose up -d --build
+```
+
+| URL                                   | What                               |
+|---------------------------------------|------------------------------------|
+| http://localhost:8080/Products.html   | Storefront (nginx, proxies `/api`) |
+| http://localhost:5101/scalar          | Catalog API docs (Scalar)          |
+| http://localhost:5101/health/ready    | Catalog readiness (checks the DB)  |
+
+The Catalog service applies its EF Core migrations on startup, and the first migration seeds the products.
+
+Running the API from your IDE instead: start only the database with `docker compose up -d postgres`,
+then `dotnet run --project services/Catalog/Catalog.Api`. The storefront can be opened with
+VS Code Live Server (port 5500); `frontend/Api.js` then calls the API on port 5101.
+
+Tests and migrations:
+
+```
+dotnet test
+dotnet tool restore
+dotnet ef migrations add <Name> -p services/Catalog/Catalog.Api -o Data/Migrations
+```

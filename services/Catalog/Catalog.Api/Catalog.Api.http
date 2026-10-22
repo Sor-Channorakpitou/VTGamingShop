@@ -1,0 +1,19 @@
+@Catalog = http://localhost:5101
+
+GET {{Catalog}}/api/products?page=1&pageSize=10
+
+###
+
+GET {{Catalog}}/api/products?search=headset
+
+###
+
+GET {{Catalog}}/api/products/1
+
+###
+
+GET {{Catalog}}/api/products/categories
+
+###
+
+GET {{Catalog}}/health/ready

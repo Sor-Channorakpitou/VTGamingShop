@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="Darkmode.js"></script>
+    <script src="Api.js"></script>
+    <script src="Products.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -33,9 +35,9 @@
             </div>
 
             <div class="relative w-1/3 md-block">
-                <input type="text" placeholder="Search a product" 
+                <input id="searchInput" type="text" placeholder="Search a product" 
                 class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 dark:border-white-300 focus:ring-2 focus:ring-purple-500 outline-none">
-                <button class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">
+                <button id="searchButton" class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
@@ -72,168 +74,10 @@
             <button class="relative w-fit px-5 py-2 rounded-full text-white text-lg font-semibold btn zoom">Buy Now ></button>
         </div>
 
-        <div class="my-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <!--item1-->
-            <div class="bg-white dark:bg-gray-800 rounded p-6 shadow-sm hover:shadow-lg transition">
-            <img src="Images/Products/headset.png" class="mx-auto h-50">
-            <h3 class="mt-4 text-2xl font-semibold">Gaming Headset</h3>
-            <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-            <div class="text-yellow-400 text-xl">★★★☆☆</div>
-            <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item2-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item3-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★☆☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item4-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item5-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item6-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★★</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item7-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item8-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★★</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item9-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★☆☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item10-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★★</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item11-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item12-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item13-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★☆☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item14-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item15-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item16-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★★</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item17-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item18-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★☆☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item19-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★★★☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-            <!--item20-->
-            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 hover:shadow-lg transition">
-                <img src="Images/Products/headset.png" class="mx-auto h-50" />
-                <h3 class="font-semibold mt-4 text-2xl">Gaming Headset</h3>
-                <p class="text-purple-600 dark:text-white font-bold text-xl">$49.99</p>
-                <div class="text-yellow-400 text-xl">★★☆☆☆</div>
-                <button class="btn zoom w-full mt-3 rounded text-sm py-2">Add to Cart</button>
-            </div>
-        </div>
+        <p id="productStatus" class="my-6 text-center text-lg hidden"></p>
+
+        <!-- filled from the Catalog API by Products.js -->
+        <div id="productGrid" class="my-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"></div>
     </section>
 
     <footer class="border-t border-gray-200 dark:bg-gray-800 dark:border-gray-800 py-6">
