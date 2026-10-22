@@ -1,31 +1,32 @@
 using Catalog.Api.Data;
+using Catalog.Api.OpenApi;
 using Catalog.Api.Products;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using VTGamingShop.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<CatalogDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CatalogDb")));
 
-builder.Services.AddOpenApi();
+// Tokens are checked here as well as at the gateway, so the service stays safe
+// if it is ever reached without going through the gateway.
+builder.Services.AddKeycloakJwtAuth(builder.Configuration);
+
+builder.Services.AddOpenApi(options => options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
 builder.Services.AddProblemDetails();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<CatalogDbContext>("database", tags: ["ready"]);
 
-// Lets the storefront call the API directly when it is not served behind the same origin
-// (e.g. VS Code Live Server). In Docker the storefront goes through nginx and needs no CORS.
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-builder.Services.AddCors(options =>
-    options.AddDefaultPolicy(policy => policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
-
 var app = builder.Build();
 
 app.UseExceptionHandler();
 app.UseStatusCodePages();
-app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapOpenApi();
 app.MapScalarApiReference(options => options.WithTitle("VT Gaming Shop – Catalog API"));

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Catalog.Api\Catalog.Api.csproj" />
+    <ProjectReference Include="..\..\Shared\VTGamingShop.Testing\VTGamingShop.Testing.csproj" />
   </ItemGroup>
 
 </Project>

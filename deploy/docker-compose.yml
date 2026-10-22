@@ -11,11 +11,46 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U vtshop -d catalog"]
       interval: 5s
       timeout: 3s
       retries: 10
+
+  # Users, login and signup. Served under /auth through the gateway, so the browser,
+  # the storefront and the token issuer all share http://localhost:8080.
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.7
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: vtshop
+      KC_DB_PASSWORD: vtshop
+      KC_HTTP_ENABLED: "true"
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HOSTNAME: http://localhost:8080/auth
+      # Lets services inside Docker fetch keys from http://keycloak:8080 while tokens
+      # keep the public issuer http://localhost:8080/auth/realms/vtshop.
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak/realm-vtshop.json:/opt/keycloak/data/import/realm-vtshop.json:ro
+      - ./keycloak/themes/vtshop:/opt/keycloak/themes/vtshop:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      # The image has no curl; ask the management port directly.
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/9000 && printf 'GET /auth/health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && grep -q '\"UP\"' <&3"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
 
   catalog:
     build:
@@ -23,23 +58,35 @@ services:
       dockerfile: Catalog/Catalog.Api/Dockerfile
     environment:
       ConnectionStrings__CatalogDb: "Host=postgres;Port=5432;Database=catalog;Username=vtshop;Password=vtshop"
+      Keycloak__MetadataAddress: "http://keycloak:8080/auth/realms/vtshop/.well-known/openid-configuration"
     ports:
+      # Direct access for the Scalar docs at http://localhost:5101/scalar.
       - "5101:8080"
     depends_on:
       postgres:
         condition: service_healthy
 
-  # Serves the storefront and forwards /api/* to the Catalog service.
-  # Replaced by the YARP gateway in roadmap step 2.
+  # Static storefront files. Reached through the gateway, not directly.
   frontend:
     image: nginx:1.27-alpine
     volumes:
       - ../frontend:/usr/share/nginx/html:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # Single entry point: /api/* to the services, /auth/* to Keycloak, everything else to the storefront.
+  gateway:
+    build:
+      context: ../services
+      dockerfile: Gateway/Gateway.Api/Dockerfile
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
-      - catalog
+      catalog:
+        condition: service_started
+      frontend:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
 
 volumes:
   postgres-data:
