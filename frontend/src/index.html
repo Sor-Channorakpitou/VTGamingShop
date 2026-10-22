@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VTStore – Gaming Accessories</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VTStore: headsets, mice, controllers, consoles and gaming PCs.">
+  <meta name="theme-color" content="#5400ff">
+  <link rel="icon" type="image/png" href="Images/logo.png">
+  <script>
+    // Apply the saved theme before Angular starts, so the page does not flash.
+    // The same "theme" key is read by the Keycloak login theme.
+    try {
+      var saved = localStorage.getItem("theme");
+      if (saved === "dark" || (!saved && matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+      }
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

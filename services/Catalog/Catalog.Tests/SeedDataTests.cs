@@ -20,7 +20,8 @@ public class SeedDataTests
     [Fact]
     public void Images_exist_in_the_frontend()
     {
-        var frontend = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../frontend"));
+        // Static files of the Angular storefront.
+        var frontend = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../frontend/public"));
         Assert.True(Directory.Exists(frontend), $"Frontend folder not found at {frontend}");
         Assert.All(SeedData.Products, p => Assert.True(File.Exists(Path.Combine(frontend, p.ImageUrl)), p.ImageUrl));
     }

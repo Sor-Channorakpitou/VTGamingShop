@@ -26,8 +26,8 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy(RateLimitOptions.AuthPolicy, context => PerClientIp(context, rateLimits.Auth));
 });
 
-// Only needed when the storefront is served from somewhere other than the gateway
-// (e.g. VS Code Live Server on port 5500).
+// Only needed if a browser app is served from another origin. The storefront is served through
+// the gateway, and `ng serve` proxies to it, so by default no origins are allowed.
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>
     options.AddPolicy("storefront", policy => policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
