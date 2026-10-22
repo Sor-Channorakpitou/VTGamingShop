@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="Darkmode.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn {
+                @apply px-6 py-3 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg;
+            }
+
+            .zoom {
+                @apply transition-all duration-300 ease-out hover:scale-110 hover:shadow-2xl hover:from-purple-700 hover:to-indigo-700;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-[Candara] text-[#333333] bg-white-300 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors">
+    <header class="w-full border-b border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between py-2 px-6 gap-10">
+            <div>
+                <img src="/Images/logo.png" alt="Logo VT" class="w-[3em]">
+            </div>
+
+            <div class="relative w-1/3 md-block">
+                <input type="text" placeholder="Search a product" 
+                class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 dark:border-white-300 focus:ring-2 focus:ring-purple-500 outline-none">
+                <button class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <ul class="hidden md:flex space-x-8 text-lg font-bold">
+                <li><a href="Home.html" class="hover:text-purple-600">Home</a></li>
+                <li><a href="Products.html" class="hover:text-purple-600">Products</a></li>
+                <li><a href="Service.html" class="hover:text-purple-600">Services</a></li>
+                <li><a href="Contact.html" class="hover:text-purple-600">Contact</a></li>
+            </ul>
+            <div class="flex gap-10">
+                <a href="Cart.html"><i class="fa-solid fa-cart-shopping text-2xl hover:text-purple-600 zoom"></i></a>
+                <a href="Account.html"><i class="fa-solid fa-circle-user text-2xl hover:text-purple-600 zoom"></i></a>
+            </div>
+            <button id="themeToggle" class="text-xl px-3">🌓︎</button>
+        </nav>
+    </header>
+
+    <section class="py-16 bg-gray-100 dark:bg-gray-900 border-gray-700">
+        <div class="text-center mb-14">
+            <h2 class="text-6xl font-bold text-purple-600 mb-4">Our services</h2>
+            <p class="max-w-2xl mx-auto text-gray-600 dark:text-white">
+            From high-performance accessories to expert repairs and gaming setup
+            consultation, we provide everything you need.
+            </p>
+        </div>
+
+    <div class="grid gap-20 px-10 mx-auto sm:grid-cols-2 lg:grid-cols-3">
+        <!--card1-->
+            <div class="bg-white p-10 rounded-xl zoom dark:bg-gray-800">
+                <img src="Images/Services/retail.png" class=" mb-6 object-cover" />
+                <div class="flex justify-center">
+                    <div class="relative w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg zoom"><i class="fa-solid fa-basket-shopping text-white text-xl relative z-10"></i></div>
+                </div>
+                    <h3 class="text-4xl font-bold text-center mt-6 text-purple-600">Accessories Retail</h3>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mt-3">
+                        A wide variety of gaming peripherals including keyboards, mice, headsets, controllers, and more.
+                    </p>
+            </div>
+        <!--card2-->
+            <div class="bg-white p-10 rounded-xl zoom dark:bg-gray-800">
+                <img src="Images/Services/repair.png" class=" mb-6 object-cover rounded" />
+                <div class="flex justify-center">
+                    <div class="relative w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg zoom"><i class="fa-solid fa-screwdriver-wrench text-white text-xl relative z-10"></i></div>
+                </div>
+                    <h3 class="text-4xl font-bold text-center mt-6 text-purple-600">Repair</h3>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mt-3">
+                        Reliable repair service for damaged or malfunctioning gaming devices with quality assurance.
+                    </p>
+            </div>
+        <!--card3-->
+            <div class="bg-white p-10 rounded-xl zoom dark:bg-gray-800">
+                <img src="Images/Services/consult.png" class=" mb-6 object-cover rounded" />
+                <div class="flex justify-center">
+                    <div class="relative w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg zoom"><i class="fa-solid fa-handshake-angle text-white text-xl relative z-10"></i></div>
+                </div>
+                    <h3 class="text-4xl font-bold text-center mt-6 text-purple-600">Gaming Setup Counsultation</h3>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mt-3">
+                        Personalized advice and planning to build the perfect gaming environment for individuals or companies.
+                    </p>
+            </div>
+    </div>
+    </section>
+
+    <footer class="border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-between space-y-4 md:space-y-0">
+            <div>
+                <img src="/Images/logo.png" alt="Logo VT" class="w-20">
+            </div>
+                <ul class="flex flex-cols dark:text-white font-bold text-lg lg:text-3xl py-4 gap-4 lg:gap-10 justify-center flex-wrap">
+                    <li>MAIN</li>
+                    <li>PRODUCTS</li>
+                    <li>BLOG</li>
+                    <li>SHOP</li>
+                    <li>CONTACTS</li>
+                </ul>
+            <div class="w-full h-px bg-gray-400 my-4"></div>
+
+            <div class="flex items-center space-x-4 text-lg"><span>© 2025 VTStore</span></div>
+
+            <div class="flex space-x-4 text-sm text-gray-600 dark:text-white">
+                <a href="#" class="hover:text-purple-600">Privacy Policy</a><span>|</span>
+                <a href="#" class="hover:text-purple-600">Terms of Service</a><span>|</span>
+                <a href="#" class="hover:text-purple-600">FAQ</a><span>|</span>
+                <a href="#" class="hover:text-purple-600">Support</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
