@@ -16,7 +16,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         var back = document.createElement("a");
-        back.href = "/Home.html";
+        back.href = "/";
         back.className = "vt-corner vt-back";
         back.setAttribute("aria-label", "Back to the shop");
         back.textContent = "←";

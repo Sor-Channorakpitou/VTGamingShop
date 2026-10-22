@@ -19,13 +19,16 @@ public static class ProductEndpoints
 {
     public const int MaxPageSize = 100;
 
+    // "featured" is the default catalog order.
+    public static readonly string[] SortOptions = ["featured", "price-asc", "price-desc", "rating", "name"];
+
     public static IEndpointRouteBuilder MapProductEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/products").WithTags("Products");
 
         group.MapGet("/", ListProducts)
             .WithName("ListProducts")
-            .WithSummary("List products, optionally filtered by search text and category.");
+            .WithSummary("List products, optionally filtered by search text and category, and sorted (featured, price-asc, price-desc, rating, name).");
 
         group.MapGet("/{id:int}", GetProduct)
             .WithName("GetProduct")
@@ -56,6 +59,7 @@ public static class ProductEndpoints
         CatalogDbContext db,
         string? search,
         string? category,
+        string? sort,
         int page = 1,
         int pageSize = 20,
         CancellationToken ct = default)
@@ -65,6 +69,8 @@ public static class ProductEndpoints
             errors["page"] = ["Must be 1 or greater."];
         if (pageSize is < 1 or > MaxPageSize)
             errors["pageSize"] = [$"Must be between 1 and {MaxPageSize}."];
+        if (sort is not null && !SortOptions.Contains(sort))
+            errors["sort"] = [$"Must be one of: {string.Join(", ", SortOptions)}."];
         if (errors.Count > 0)
             return TypedResults.ValidationProblem(errors);
 
@@ -79,9 +85,18 @@ public static class ProductEndpoints
         if (!string.IsNullOrWhiteSpace(category))
             query = query.Where(p => p.Category == category);
 
+        // Id as the tie-breaker keeps paging stable.
+        IOrderedQueryable<Product> ordered = sort switch
+        {
+            "price-asc" => query.OrderBy(p => p.Price).ThenBy(p => p.Id),
+            "price-desc" => query.OrderByDescending(p => p.Price).ThenBy(p => p.Id),
+            "rating" => query.OrderByDescending(p => p.Rating).ThenBy(p => p.Id),
+            "name" => query.OrderBy(p => p.Name).ThenBy(p => p.Id),
+            _ => query.OrderBy(p => p.Id),
+        };
+
         var total = await query.CountAsync(ct);
-        var items = await query
-            .OrderBy(p => p.Id)
+        var items = await ordered
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(p => new ProductDto(p.Id, p.Name, p.Description, p.Category, p.Price, p.Stock, p.Rating, p.ImageUrl))

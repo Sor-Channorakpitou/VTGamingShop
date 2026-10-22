@@ -1,12 +1,12 @@
 # Gaming Shop v2 — Microservices
 
 Version 2 of the [Web Design Final Project](https://github.com/Sor-Channorakpitou/Web-Design_FinalProject) (kept as the legacy static site).
-The same storefront, now backed by .NET microservices. Every tool used is free and open source.
+The same shop, rebuilt as an Angular storefront backed by .NET microservices. Every tool used is free and open source.
 
 ## Layout
 
 ```
-frontend/   the storefront (HTML, Tailwind, vanilla JS)
+frontend/   the storefront (Angular 22, Tailwind CSS 4)
 services/   .NET 10 microservices
 deploy/     Docker Compose and, later, Kubernetes manifests
 ```
@@ -60,8 +60,8 @@ Everything goes through the gateway on port 8080:
 
 | URL                                      | What                                     |
 |------------------------------------------|------------------------------------------|
-| http://localhost:8080/Products.html      | Storefront                               |
-| http://localhost:8080/Login.html         | Log in / sign up (Keycloak, shop theme)  |
+| http://localhost:8080                    | Storefront (log in / sign up from the header) |
+| http://localhost:8080/admin/products     | Manage products (admin account)          |
 | http://localhost:8080/auth/admin         | Keycloak admin console (`admin` / `admin`) |
 | http://localhost:5101/scalar             | Catalog API docs (Scalar, direct)        |
 | http://localhost:8080/health/ready       | Gateway readiness                        |
@@ -71,7 +71,7 @@ Everything goes through the gateway on port 8080:
 | `/api/products` GET | Catalog        | Public, rate limited (100 requests / 10 s per IP)  |
 | `/api/products` POST, PUT, DELETE | Catalog | JWT with the `admin` role, rate limited     |
 | `/auth/*`     | Keycloak             | Rate limited (300 / min per IP)                    |
-| everything else | Storefront (nginx) | Static files                                       |
+| everything else | Storefront (nginx) | Angular app; unknown paths fall back to `index.html` |
 
 ### Demo accounts (local only)
 
@@ -88,9 +88,9 @@ reset with `docker compose down -v` (this also wipes the catalog data, which is 
 
 ### How login works
 
-The storefront uses the authorization code flow with PKCE (`frontend/Auth.js`). "Log in" and "Sign up"
+The storefront uses the authorization code flow with PKCE (`frontend/src/app/core/auth`). "Log in" and "Sign up"
 send you to Keycloak's login page, themed to look like the shop (`deploy/keycloak/themes/vtshop`).
-Keycloak sends you back to `Callback.html`, which exchanges the code for tokens. API calls carry the
+Keycloak sends you back to `/callback`, which exchanges the code for tokens. API calls carry the
 access token; the gateway checks it, and Catalog checks it again before any admin action.
 
 Access tokens are issued by `http://localhost:8080/auth/realms/vtshop`, have the audience `vtshop-api`
@@ -101,14 +101,25 @@ To try the admin endpoints in Scalar, log in as the admin, then copy the access 
 
 ### Running pieces outside Docker
 
-Run a service from your IDE with the rest in Docker, e.g. `docker compose up -d postgres keycloak` and
-`dotnet run --project services/Catalog/Catalog.Api`. The storefront can be opened with VS Code Live Server
-(port 5500); `frontend/Api.js` then sends requests to the gateway on port 8080.
+Storefront with live reload: keep the Docker stack running, then
+
+```
+cd frontend
+npm install
+npm start
+```
+
+and open http://localhost:4200. `ng serve` forwards `/api` and `/auth` to the gateway on port 8080
+(`frontend/proxy.conf.json`), and Keycloak accepts logins from port 4200.
+
+A .NET service can also run from your IDE with the rest in Docker, e.g. `docker compose up -d postgres keycloak`
+and `dotnet run --project services/Catalog/Catalog.Api`.
 
 ### Tests and migrations
 
 ```
 dotnet test
+cd frontend && npm test -- --watch=false
 dotnet tool restore
 dotnet ef migrations add <Name> -p services/Catalog/Catalog.Api -o Data/Migrations
 ```

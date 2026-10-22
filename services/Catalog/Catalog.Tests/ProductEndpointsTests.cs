@@ -50,10 +50,30 @@ public class ProductEndpointsTests(CatalogApiFactory factory) : IClassFixture<Ca
         Assert.All(result.Items, p => Assert.Equal("Mice", p.Category));
     }
 
+    [Fact]
+    public async Task List_sorts_by_price()
+    {
+        var asc = await _client.GetFromJsonAsync<PagedResult<ProductDto>>("/api/products?sort=price-asc&pageSize=100");
+        var desc = await _client.GetFromJsonAsync<PagedResult<ProductDto>>("/api/products?sort=price-desc&pageSize=100");
+
+        Assert.Equal(asc!.Items.Select(p => p.Price).Order(), asc.Items.Select(p => p.Price));
+        Assert.Equal(desc!.Items.Select(p => p.Price).OrderDescending(), desc.Items.Select(p => p.Price));
+    }
+
+    [Fact]
+    public async Task List_sorts_by_rating_with_stable_ties()
+    {
+        var result = await _client.GetFromJsonAsync<PagedResult<ProductDto>>("/api/products?sort=rating&pageSize=100");
+
+        var expected = SeedData.Products.OrderByDescending(p => p.Rating).ThenBy(p => p.Id).Select(p => p.Id);
+        Assert.Equal(expected, result!.Items.Select(p => p.Id));
+    }
+
     [Theory]
     [InlineData("page=0")]
     [InlineData("pageSize=0")]
     [InlineData("pageSize=101")]
+    [InlineData("sort=cheapest")]
     public async Task List_rejects_invalid_paging(string query)
     {
         var response = await _client.GetAsync($"/api/products?{query}");
