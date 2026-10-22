@@ -1,4 +1,6 @@
 @Catalog = http://localhost:5101
+# Paste an admin access token here (see README, "How login works").
+@Token = paste-admin-access-token
 
 GET {{Catalog}}/api/products?page=1&pageSize=10
 
@@ -13,6 +15,22 @@ GET {{Catalog}}/api/products/1
 ###
 
 GET {{Catalog}}/api/products/categories
+
+###
+
+POST {{Catalog}}/api/products
+Authorization: Bearer {{Token}}
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard",
+  "description": "Hot-swappable switches.",
+  "category": "Keyboards",
+  "price": 89.99,
+  "stock": 15,
+  "rating": 4,
+  "imageUrl": "Images/Cart/mouse.png"
+}
 
 ###
 

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
+    <title>My Account</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="Darkmode.js"></script>
+    <script src="Api.js"></script>
+    <script src="Auth.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -87,10 +89,11 @@
             <!-- right -->
             <section class="bg-white h-full dark:bg-gray-800 rounded-2xl p-6 max-w-5xl">
 
-            <div class="flex justify-between">
+            <div class="flex justify-between flex-wrap gap-4">
                 <h2 class="text-2xl font-bold text-primary mb-6">User Account</h2>
-                <div class="flex justify-end mt-8">
-                    <button class="btn font-bold px-6 py-2 rounded-xl bg-primary text-white">Save changes</button>
+                <div class="flex justify-end gap-3 mt-8">
+                    <a id="manageAccount" href="#" class="btn font-bold px-6 py-2 rounded-xl text-white">Manage account</a>
+                    <button id="logoutButton" class="font-bold px-6 py-2 rounded-xl border border-purple-600 text-purple-600 dark:text-white hover:bg-purple-600 hover:text-white transition">Log out</button>
                 </div>
             </div>
 
@@ -100,42 +103,29 @@
                     <img src="Images/Login/profile.png" alt="" class="rounded-full">
                 </div>
                 <div>
-                <p class="font-semibold">Sor Channorakpitou</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Phnom Penh, Cambodia</p>
+                <p class="font-semibold"><span id="fullName"></span> <span id="adminBadge" class="hidden ml-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full px-2 py-0.5 align-middle">Admin</span></p>
+                <p id="emailSummary" class="text-sm text-gray-500 dark:text-gray-400"></p>
                 </div>
             </div>
 
             <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm text-gray-500 mb-1">First name</label>
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">Sor</p>
+                    <p id="firstName" class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">&nbsp;</p>
                 </div>
 
                 <div>
                     <label class="block text-sm text-gray-500 mb-1">Last name</label>
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">Channorakpitou</p>
+                    <p id="lastName" class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">&nbsp;</p>
                 </div>
 
                 <div>
-                    <label class="block text-sm text-gray-500 mb-1">Email address</label> 
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">Pitou13@gmail.com</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-500 mb-1">Phone number</label>
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">071 772 9859</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-500 mb-1">Location</label>
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">Chak Angre Phnom Penh</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-500 mb-1">Postal code</label>
-                    <p class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">019734</p>
+                    <label class="block text-sm text-gray-500 mb-1">Email address</label>
+                    <p id="email" class="w-full px-4 py-2 rounded border dark:border-gray-600 dark:bg-gray-700 bg-transparent focus:outline-none">&nbsp;</p>
                 </div>
             </form>
+
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-6">Change your name, email or password with “Manage account”.</p>
 
             </section>
         </main>
@@ -145,6 +135,23 @@
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('hidden');
         }
+
+        document.getElementById("manageAccount").href = Auth.accountConsoleUrl;
+        document.getElementById("logoutButton").addEventListener("click", () => Auth.logout());
+
+        Auth.getUser().then((user) => {
+            if (!user) {
+                location.replace("Login.html?returnTo=Account.html");
+                return;
+            }
+            const show = (id, text) => (document.getElementById(id).textContent = text || "—");
+            show("fullName", user.name);
+            show("emailSummary", user.email);
+            show("firstName", user.firstName);
+            show("lastName", user.lastName);
+            show("email", user.email);
+            document.getElementById("adminBadge").classList.toggle("hidden", !user.roles.includes("admin"));
+        });
     </script>
 
 </body>

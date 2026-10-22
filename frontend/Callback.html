@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signing in</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+        if (localStorage.getItem("theme") === "dark") document.documentElement.classList.add("dark");
+    </script>
+    <script src="Api.js"></script>
+    <script src="Auth.js"></script>
+</head>
+<body class="font-[Candara] text-[#333333] bg-gray-100 dark:bg-gray-900 dark:text-gray-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-10 text-center max-w-md">
+        <img src="Images/logo.png" alt="logo" class="w-20 mx-auto mb-4">
+        <p id="message" class="text-lg">Signing you in...</p>
+        <a id="retry" href="Login.html" class="hidden mt-6 inline-block font-bold bg-gradient-to-br from-[#5400FF] to-[#8453DA] text-white px-6 py-2 rounded-md hover:opacity-90">Back to log in</a>
+    </div>
+
+    <script>
+        Auth.handleCallback()
+            .then((returnTo) => location.replace(returnTo))
+            .catch((error) => {
+                console.error(error);
+                document.getElementById("message").textContent = error.message;
+                document.getElementById("retry").classList.remove("hidden");
+            });
+    </script>
+</body>
+</html>

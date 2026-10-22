@@ -1,8 +1,10 @@
 # Build context: the services/ folder (see deploy/docker-compose.yml).
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
+COPY Shared/VTGamingShop.Auth/VTGamingShop.Auth.csproj Shared/VTGamingShop.Auth/
 COPY Catalog/Catalog.Api/Catalog.Api.csproj Catalog/Catalog.Api/
 RUN dotnet restore Catalog/Catalog.Api/Catalog.Api.csproj
+COPY Shared/VTGamingShop.Auth/ Shared/VTGamingShop.Auth/
 COPY Catalog/Catalog.Api/ Catalog/Catalog.Api/
 RUN dotnet publish Catalog/Catalog.Api/Catalog.Api.csproj -c Release -o /app --no-restore
 

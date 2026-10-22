@@ -17,4 +17,8 @@
     <PackageReference Include="Scalar.AspNetCore" Version="2.18.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\VTGamingShop.Auth\VTGamingShop.Auth.csproj" />
+  </ItemGroup>
+
 </Project>

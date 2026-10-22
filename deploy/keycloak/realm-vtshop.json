@@ -1,0 +1,104 @@
+{
+  "realm": "vtshop",
+  "enabled": true,
+  "displayName": "VT Gaming Shop",
+  "displayNameHtml": "VTStore",
+  "loginTheme": "vtshop",
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "verifyEmail": false,
+  "passwordPolicy": "length(8) and notUsername",
+  "bruteForceProtected": true,
+  "failureFactor": 5,
+  "waitIncrementSeconds": 60,
+  "maxFailureWaitSeconds": 900,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "roles": {
+    "realm": [
+      { "name": "customer", "description": "Can shop and place orders. Given to everyone who signs up." },
+      { "name": "admin", "description": "Can manage the product catalog." },
+      { "name": "offline_access", "description": "${role_offline-access}" },
+      { "name": "uma_authorization", "description": "${role_uma_authorization}" },
+      {
+        "name": "default-roles-vtshop",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [ "offline_access", "uma_authorization", "customer" ],
+          "client": { "account": [ "view-profile", "manage-account" ] }
+        }
+      }
+    ]
+  },
+  "defaultRole": { "name": "default-roles-vtshop" },
+  "clients": [
+    {
+      "clientId": "storefront",
+      "name": "VT Gaming Shop storefront",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [ "http://localhost:8080/*", "http://localhost:5500/*", "http://127.0.0.1:5500/*" ],
+      "webOrigins": [ "http://localhost:8080", "http://localhost:5500", "http://127.0.0.1:5500" ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:8080/*##http://localhost:5500/*##http://127.0.0.1:5500/*"
+      },
+      "protocolMappers": [
+        {
+          "name": "vtshop-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "vtshop-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "claim.name": "roles",
+            "multivalued": "true",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin@vtshop.local",
+      "email": "admin@vtshop.local",
+      "emailVerified": true,
+      "firstName": "Shop",
+      "lastName": "Admin",
+      "enabled": true,
+      "credentials": [ { "type": "password", "value": "Admin123!", "temporary": false } ],
+      "realmRoles": [ "default-roles-vtshop", "admin" ]
+    },
+    {
+      "username": "customer@vtshop.local",
+      "email": "customer@vtshop.local",
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Customer",
+      "enabled": true,
+      "credentials": [ { "type": "password", "value": "Customer123!", "temporary": false } ],
+      "realmRoles": [ "default-roles-vtshop" ]
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+/* Storefront look for the Keycloak login pages: same font, colours and gradient as frontend/Login.html. */
+
+:root {
+    --vt-gradient: linear-gradient(to bottom right, #5400FF, #8453DA);
+    --vt-bg: #f3f4f6;
+    --vt-card: #ffffff;
+    --vt-text: #333333;
+    --vt-muted: #6b7280;
+    --vt-link: #7c3aed;
+    --vt-input-bg: #ffffff;
+    --vt-input-border: #d1d5db;
+    --vt-focus: #9333ea;
+}
+
+/* Set by js/vtshop.js from the storefront's saved theme (same origin through the gateway). */
+html.dark {
+    --vt-bg: #111827;
+    --vt-card: #1f2937;
+    --vt-text: #e5e7eb;
+    --vt-muted: #9ca3af;
+    --vt-link: #c4b5fd;
+    --vt-input-bg: #374151;
+    --vt-input-border: #4b5563;
+}
+
+.login-pf body {
+    background: var(--vt-bg) !important;
+    color: var(--vt-text);
+    font-family: Candara, Calibri, "Segoe UI", sans-serif;
+    transition: background-color .2s, color .2s;
+}
+
+.login-pf-page {
+    padding-top: 48px;
+}
+
+/* Logo above the realm name. */
+#kc-header-wrapper {
+    background: url(../img/logo.png) no-repeat top center / 80px auto;
+    padding: 92px 0 8px;
+    color: var(--vt-text);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: normal;
+}
+
+.card-pf {
+    background: var(--vt-card);
+    color: var(--vt-text);
+    border-top: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
+    max-width: 480px;
+    padding: 36px 40px;
+}
+
+#kc-page-title {
+    color: var(--vt-text);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.login-pf-page .login-pf-header {
+    margin-bottom: 24px;
+}
+
+.pf-c-form__label,
+.pf-c-form__label-text,
+.login-pf-page label {
+    color: var(--vt-text);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.pf-c-form-control {
+    background: var(--vt-input-bg) !important;
+    color: var(--vt-text) !important;
+    border: 1px solid var(--vt-input-border) !important;
+    border-radius: 6px;
+    padding: 8px 10px;
+    height: auto;
+    font-size: 15px;
+}
+
+.pf-c-form-control:focus {
+    outline: 2px solid var(--vt-focus);
+    outline-offset: 0;
+}
+
+.pf-c-form-control::after {
+    display: none;
+}
+
+/* Show/hide password button next to the field. */
+.pf-c-input-group .pf-c-button.pf-m-control {
+    background: var(--vt-input-bg);
+    color: var(--vt-muted);
+    border: 1px solid var(--vt-input-border);
+    border-left: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.pf-c-input-group .pf-c-button.pf-m-control::after {
+    display: none;
+}
+
+.pf-c-input-group .pf-c-form-control {
+    border-radius: 6px 0 0 6px;
+}
+
+.pf-c-button.pf-m-primary {
+    background: var(--vt-gradient);
+    border: 0;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    transition: opacity .2s;
+}
+
+.pf-c-button.pf-m-primary:hover,
+.pf-c-button.pf-m-primary:focus {
+    background: var(--vt-gradient);
+    opacity: .9;
+}
+
+.login-pf-page a,
+#kc-registration a,
+#kc-form-options a {
+    color: var(--vt-link);
+}
+
+.login-pf-page a:hover {
+    color: var(--vt-focus);
+    text-decoration: underline;
+}
+
+#kc-form-options .checkbox label,
+.login-pf-page .checkbox label {
+    font-weight: 700;
+    color: var(--vt-muted);
+}
+
+input[type="checkbox"] {
+    accent-color: #7c3aed;
+}
+
+#kc-info,
+#kc-info-wrapper {
+    background: transparent;
+    border: 0;
+    color: var(--vt-muted);
+    font-size: 15px;
+}
+
+.login-pf-page .subtitle,
+.login-pf-page .required {
+    color: var(--vt-muted);
+}
+
+/* Back-to-shop link and theme toggle, added by js/vtshop.js. */
+.vt-corner {
+    position: fixed;
+    top: 20px;
+    z-index: 50;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--vt-link);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.vt-corner:hover {
+    text-decoration: none;
+    opacity: .8;
+}
+
+.vt-back { left: 20px; }
+.vt-theme { right: 20px; color: var(--vt-text); }

@@ -7,6 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="Darkmode.js"></script>
+  <script src="Api.js"></script>
+  <script src="Auth.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class', 
@@ -45,19 +47,16 @@
 
     <div class="relative w-full max-w-6xl px-4 md:px-0">
 
-  <!--Default UI-->
-  <div
-    id="defaultUI"
-    class="relative bg-white dark:bg-gray-800 shadow-lg flex flex-col lg:flex-row transition-all duration-500 ease-smooth">
+  <div class="relative bg-white dark:bg-gray-800 shadow-lg flex flex-col lg:flex-row">
 
     <!-- Login -->
     <div
       class="w-full lg:w-1/2 bg-gradient-to-br from-[#5400FF] to-[#8453DA]
-            text-white p-40 flex flex-col justify-center items-center
+            text-white p-16 lg:p-40 flex flex-col justify-center items-center
             lg:clip-path-custom">
       <h2 class="text-2xl font-bold mb-4 text-center">Already Signed Up?</h2>
       <p class="text-lg text-center mb-6 opacity-90 max-w-md">Log in to your account so you can continue purchasing and view your account</p>
-      <button onclick="showLoginUI()" class="border-2 px-6 py-2 hover:bg-white hover:text-purple-700 transition">LOG IN</button>
+      <button id="loginButton" class="border-2 px-6 py-2 hover:bg-white hover:text-purple-700 transition">LOG IN</button>
     </div>
 
     <!-- Sign up -->
@@ -67,103 +66,30 @@
 
       <p class="text-sm mb-6 text-gray-500 dark:text-gray-400 text-center">Let’s get all set up so you can start shopping.</p>
 
-      <form class="space-y-4 w-full">
-            <div class="grid grid-cols-2">
-                <label class="font-bold dark:text-gray-200">First name</label>
-                <label class="font-bold dark:text-gray-200">Last name</label>
-                <input class="input p-2" placeholder="Your first name"/>
-                <input class="input p-2" placeholder="Your last name"/>
-            </div>
+      <ul class="space-y-3 mb-8 text-gray-600 dark:text-gray-300">
+        <li><i class="fa-solid fa-cart-shopping text-purple-600 w-6"></i>Check out faster with a saved account</li>
+        <li><i class="fa-solid fa-clock-rotate-left text-purple-600 w-6"></i>Track your orders and order history</li>
+        <li><i class="fa-solid fa-shield-halved text-purple-600 w-6"></i>Your password is never stored by the shop</li>
+      </ul>
 
-            <div>
-                <label class="font-bold dark:text-gray-200">Email</label>
-                <input class="input p-2 w-full" placeholder="Enter your email"/>
-            </div>
-
-      <div>
-        <label class="font-bold dark:text-gray-200">Password</label>
-              <div class="relative">
-                <input id="password" type="password" class="input p-2 pr-10 w-full" placeholder="Enter a strong password" oninput="Eye()"/>
-                <button type="button" id="eyeBtn" onclick="Password()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-600 hidden"></button>
-              </div>
-            </div>
-
-            <label class="font-bold flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-                <input type="checkbox" class="accent-purple-600"/>I accept <span class="text-purple-700">Terms & Conditions</span>
-            </label>
-
-            <button class="font-bold w-full bg-gradient-to-br from-[#5400FF] to-[#8453DA] hover:opacity-90 text-white py-2 rounded-md transition">
-              SIGN UP
-            </button>
-          </form>
-    </div>
-  </div>
-
-  <!-- Login UI -->
-  <div id="loginUI" class="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-2xl
-          flex flex-col lg:flex-row
-          opacity-0 scale-95 pointer-events-none
-          transition-all duration-500 ease-smooth">
-
-      <div class="w-full lg:w-1/2 bg-white dark:bg-gray-800 p-10 flex flex-col justify-center items-center">
-          <img src="Images/logo.png" alt="logo" class="w-20 self-center lg:self-start">
-          <h2 class="text-2xl font-bold mb-2 dark:text-white">Log in to Your Account</h2>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Let’s get all set up so you can start shopping experiences</p>
-
-  <form class="space-y-4 w-full">
-        <div>
-            <label class="font-bold dark:text-gray-200">Email</label>
-            <input class="input p-2 w-full" placeholder="Enter your email"/>
-        </div>
-
-  <div>
-    <label class="font-bold dark:text-gray-200">Password</label>
-          <div class="relative">
-            <input id="password" type="password" class="input p-2 pr-10 w-full" placeholder="Enter your password" oninput="Eye()"/>
-            <button type="button" id="eyeBtn" onclick="Password()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-600 hidden"></button>
-          </div>
-        </div>
-        <div class="flex">
-            <label class="font-bold flex items-center gap-1 text-sm text-gray-600 grow dark:text-gray-300">
-              <input type="checkbox" class="accent-purple-600"/>Remember Me
-            </label>
-            <a href="#" class="text-purple-600 hover:text-purple-700 hover:underline">Forgot password?</a>
-        </div>
-        <button class="font-bold w-full bg-gradient-to-br from-[#5400FF] to-[#8453DA] hover:opacity-90 text-white py-2 rounded-md transition">LOG IN</button>
-      </form>
-          <p onclick="showDefaultUI()" class="text-purple-600 cursor-pointer text-sm text-center my-4">← Back to Sign Up</p>
-      </div>
-    <div
-      class="w-full lg:w-1/2 text-white flex justify-center items-center p-10 lg:clip-path-custom-second"
-      style="background: linear-gradient(180deg, #5a00ff, #8b5cf6);">
-
-      <div class="text-center max-w-sm">
-        <h2 class="text-2xl font-bold mb-4">Don’t Have an Account Yet?</h2>
-        <p class="text-sm mb-6">Sign up to continue purchasing and view your account</p>
-        <button onclick="showDefaultUI()" class="border px-6 py-2 hover:bg-white hover:text-purple-700 transition">SIGN UP</button>
-      </div>
+      <button id="registerButton" class="font-bold w-full max-w-sm bg-gradient-to-br from-[#5400FF] to-[#8453DA] hover:opacity-90 text-white py-2 rounded-md transition">
+        SIGN UP
+      </button>
+      <p class="text-xs mt-4 text-gray-500 dark:text-gray-400 text-center">You’ll continue on the VTStore secure sign-in page.</p>
     </div>
   </div>
   </div>
 
   <script>
-      function showLoginUI() {
-          defaultUI.classList.add("opacity-0","scale-95","pointer-events-none");
-          loginUI.classList.remove("opacity-0","scale-95","pointer-events-none");
-      }
+      const returnTo = new URLSearchParams(location.search).get("returnTo");
 
-      function showDefaultUI() {
-          loginUI.classList.add("opacity-0","scale-95","pointer-events-none");
-          defaultUI.classList.remove("opacity-0","scale-95","pointer-events-none");
-      }
+      document.getElementById("loginButton").addEventListener("click", () => Auth.login(returnTo));
+      document.getElementById("registerButton").addEventListener("click", () => Auth.register(returnTo));
 
-      function toggleEye() {
-          eyeBtn.classList.toggle("hidden", password.value.length === 0);
-      }
-
-      function togglePassword() {
-          password.type = password.type === "password" ? "text" : "password";
-      }
+      // Already signed in: nothing to do here.
+      Auth.getUser().then((user) => {
+          if (user) location.replace("Account.html");
+      });
   </script>
 
 </body>

@@ -4,4 +4,12 @@
     <Project Path="services/Catalog/Catalog.Api/Catalog.Api.csproj" />
     <Project Path="services/Catalog/Catalog.Tests/Catalog.Tests.csproj" />
   </Folder>
+  <Folder Name="/services/Gateway/">
+    <Project Path="services/Gateway/Gateway.Api/Gateway.Api.csproj" />
+    <Project Path="services/Gateway/Gateway.Tests/Gateway.Tests.csproj" />
+  </Folder>
+  <Folder Name="/services/Shared/">
+    <Project Path="services/Shared/VTGamingShop.Auth/VTGamingShop.Auth.csproj" />
+    <Project Path="services/Shared/VTGamingShop.Testing/VTGamingShop.Testing.csproj" />
+  </Folder>
 </Solution>
